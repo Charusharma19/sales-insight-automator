@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Sales Insight Automator</title>
+<style>
+body{
+    font-family: Arial;
+    text-align:center;
+    margin-top:100px;
+}
+button{
+    padding:10px 20px;
+    font-size:16px;
+}
+</style>
+</head>
+
+<body>
+
+<h2>Sales Insight Automator</h2>
+
+<input type="file" id="fileInput">
+
+<br><br>
+
+<button onclick="uploadFile()">Upload</button>
+
+<h3>Summary</h3>
+
+<pre id="result"></pre>
+
+<script>
+
+async function uploadFile(){
+
+    const file = document.getElementById("fileInput").files[0]
+
+    if(!file){
+        alert("Please select a file first")
+        return
+    }
+
+    const formData = new FormData()
+    formData.append("file", file)
+
+    const response = await fetch("http://127.0.0.1:8000/upload",{
+        method: "POST",
+        body: formData
+    })
+
+    const data = await response.json()
+
+    document.getElementById("result").innerText = data.AI_summary
+
+}
+
+</script>
+
+</body>
+</html>
